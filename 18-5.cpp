@@ -4,11 +4,11 @@
 class Game
 {
 private:
-    char Name{};
+    char Name[15]{};
     int Score{};
     int MasSize;
     int* sc = new int[MasSize];
-    char* nm = new char[MasSize];
+    char** nm = new char*[MasSize];
 public:
     void MassiveSize()
     {
@@ -20,14 +20,17 @@ public:
         {
             std::cout << "////\n";
             std::cout << "Введите Имя " << i + 1 << " игрока: "; std::cin >> Name;
-            nm[i] = Name;
+            int len = strlen(Name);
+            nm[i] = new char[len];
+            strcpy_s(nm[i], strlen(Name) + 1, Name);
             std::cout << "Введите Счёт " << i + 1 << " игрока: "; std::cin >> Score;
             sc[i] = Score;
         }
     }
     void BubbleSort() 
     {
-        int tempsc, tempnm;
+        int tempsc;
+        char* tempnm;
         for (int i = 0; i < MasSize - 1; i++) {
             for (int j = 0; j < MasSize - i - 1; j++) {
                 if (sc[j] < sc[j + 1]) {
@@ -54,11 +57,11 @@ public:
 int main()
 {
     system("chcp 1251>nul");
-    Game G;
-    G.MassiveSize();
-    G.SetNameAndScore();
-    G.BubbleSort();
+    Game* G = new Game;
+    G->MassiveSize();
+    G->SetNameAndScore();
+    G->BubbleSort();
     std::cout << "------\n";
-    G.ShowMas();
-//    delete p;
+    G->ShowMas();
+    delete G;
 }
